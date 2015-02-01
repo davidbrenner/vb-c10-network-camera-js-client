@@ -1,0 +1,109 @@
+
+<!--First, get the connection id-->
+<!--http://lakeminnetonkawebcam.mooo.com/-wvhttp-01-/OpenCameraServer-->
+<!--http://lakeminnetonkawebcam.mooo.com/-wvhttp-01-/GetCameraServerInfo-->
+
+<!--Check Status-->
+<!--/-wvhttp-01-/GetNotice?timeout=1800&connection_id=-->
+
+<!--Take control-->
+<!--/-wvhttp-01-/GetCameraControl?connection_id=-->
+
+<!--Check for control-->
+<!--/-wvhttp-01-/GetNotice?connection_id=-0bcb-->
+<!--Looking for: enabled_camera_control time_limit=?-->
+
+<!--Operate camera-->
+<!--/-wvhttp-01-/OperateCamera?pan=-2000&tilt=-900&zoom=2500&back_light=off&camera_id=1&connection_id=-->
+
+<script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
+<script src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+<div id="conn"></div>
+<div id="debug"></div>
+<div id="server-data"></div>
+
+<!--// TODO: Test IE7 support??? via https://code.google.com/p/explorercanvas/source/browse/excanvas.js-->
+<!--// and http://fortuito.us/diveintohtml5/canvas.html-->
+
+<div id="control-cam"></div>
+<canvas id="x" width="640" height="480" />
+<script>
+var cameraURL = "http://dbrenn.com/webcam/test.php";
+var connection_id = "";
+var imageURL = "";
+$.ajax({
+
+    url: cameraURL+"?path=OpenCameraServer",
+    data: { },
+    success: function( data ) {
+	connection_id = data.split('=')[1]
+	connection_id = connection_id.replace(/(\r\n|\n|\r)/gm,"");
+	imageURL = "http://lakeminnetonkawebcam.mooo.com/-wvhttp-01-/GetLiveImage?connection_id=" + connection_id;
+	timedRefresh(50);
+        $( "#conn" ).html( "Debug Links: <br />" + "<a href='http://lakeminnetonkawebcam.mooo.com/-wvhttp-01-/GetLiveImage?connection_id=" + connection_id +"' >GetLiveImage</a><br />"  + "<a href='http://lakeminnetonkawebcam.mooo.com/-wvhttp-01-/GetCameraServerInfo?connection_id=" + connection_id +"' >GetCameraServerInfo</a><br />"+ "<a href='http://lakeminnetonkawebcam.mooo.com/-wvhttp-01-/GetNotice?timeout=1000&connection_id=" + connection_id +"' >GetNotice</a><br />" + "<a href='http://lakeminnetonkawebcam.mooo.com/-wvhttp-01-/GetCameraControl?connection_id=" + connection_id +"' >GetCameraControl</a><br />" + "<a href='http://lakeminnetonkawebcam.mooo.com/-wvhttp-01-/OperateCamera?pan=-2000&tilt=-900&zoom=2500&back_light=off&camera_id=1&connection_id=" + connection_id +"' >OperateCamera</a><br />");
+        $( "#control-cam" ).html( "<button>Take control</button>");
+	setUpButton();
+    }
+});
+
+function setUpButton()
+{
+	$( "#control-cam button" ).on( "click", function( event ) {
+		$( "#debug" ).html( "button clicked");
+		$.ajax({
+
+		    url: cameraURL+"?path=GetCameraControl" + encodeURIComponent("?connection_id="+connection_id),
+		    data: { },
+		    success: function( data ) {
+			$( "#debug" ).html( "button clicked: " + data + "|" + connection_id + cameraURL+"?path=GetCameraControl" + encodeURIComponent("?connection_id="+connection_id) + new Date().getTime());
+			$( "#control-cam" ).html( "<button id='dock'>Dock</button><button id='weather'>Weather Station</button>");
+			setUpControl();
+		    }
+		});
+		
+	});
+};
+function setUpControl()
+{
+	$( "#dock" ).on( "click", function( event ) {
+		$( "#debug" ).html( "button clicked");
+		$.ajax({
+
+		    url: cameraURL+"?path=OperateCamera" + encodeURIComponent("?pan=0&tilt=200&zoom=4000&back_light=off&camera_id=1&connection_id="+connection_id),
+		    data: { },
+		    success: function( data ) {
+			$( "#debug" ).html( "button clicked: " + data + "|" + connection_id + "dock" + new Date().getTime());
+		    }
+		});
+		
+	});
+	$( "#weather" ).on( "click", function( event ) {
+		$( "#debug" ).html( "button clicked");
+		$.ajax({
+
+		    url: cameraURL+"?path=OperateCamera" + encodeURIComponent("?pan=-2000&tilt=-900&zoom=2500&back_light=off&camera_id=1&connection_id="+connection_id),
+		    data: { },
+		    success: function( data ) {
+			$( "#debug" ).html( "button clicked: " + data + "|" + connection_id + "weather" + new Date().getTime());
+		    }
+		});
+		
+	});
+};
+
+var canvas, context, img;
+function timedRefresh(timeoutPeriod)
+{
+	canvas = document.getElementById("x");
+	context = canvas.getContext("2d");
+	img = new Image();
+	img.src = imageURL + "&timeout=" + new Date().getTime();
+	// debug:
+	context.drawImage(img, 0, 0);
+	img.onload = function() {
+		context.drawImage(img, 0, 0);
+		$( "#server-data" ).html("Time: " + new Date().getTime());
+		setTimeout("timedRefresh("+timeoutPeriod+")",timeoutPeriod);
+	};
+}
+</script>
