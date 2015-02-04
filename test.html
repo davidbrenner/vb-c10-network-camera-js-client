@@ -93,7 +93,6 @@ function setUpButton()
 		    data: { },
 		    success: function( data ) {
 			$( "#debug" ).html( "button clicked: " + data + "|" + connection_id + cameraURL+"?path=GetCameraControl" + encodeURIComponent("?connection_id="+connection_id) + new Date().getTime());
-			$( "#control-cam" ).html( "<button id='dock'>Dock</button><button id='weather'>Weather Station</button>");
 			setUpControl();
 		    }
 		});
@@ -169,29 +168,20 @@ function getPresetList()
 
 function setUpControl()
 {
-	$( "#dock" ).on( "click", function( event ) {
-		$( "#debug" ).html( "button clicked");
-		$.ajax({
-
-		    url: cameraURL+"?path=OperateCamera" + encodeURIComponent("?pan=0&tilt=200&zoom=4000&back_light=off&camera_id=1&connection_id="+connection_id),
-		    data: { },
-		    success: function( data ) {
-			$( "#debug" ).html( "button clicked: " + data + "|" + connection_id + "dock" + new Date().getTime());
-		    }
+	
+	$( "#control-cam" ).html( "");
+	$.each(presetList, function(index, location) {
+		$( "#control-cam" ).append( "<button id='button" + index +"'>" + location.name +"</button>");
+		$( "#button"+index ).on( "click", function( event ) {
+			$.ajax({
+			    url: cameraURL+"?path=OperateCamera" + encodeURIComponent("?pan="+location.pan+"&tilt="+location.tilt+"&zoom="+location.zoom+"&back_light="+location.back_light+"&camera_id=1&connection_id="+connection_id),
+			    data: { },
+			    success: function( data ) {
+				$( "#debug" ).html( "button "+index+" clicked" + data + "|" + connection_id + "dock" + new Date().getTime());
+			    }
+			});
+			
 		});
-		
-	});
-	$( "#weather" ).on( "click", function( event ) {
-		$( "#debug" ).html( "button clicked");
-		$.ajax({
-
-		    url: cameraURL+"?path=OperateCamera" + encodeURIComponent("?pan=-2000&tilt=-900&zoom=2500&back_light=off&camera_id=1&connection_id="+connection_id),
-		    data: { },
-		    success: function( data ) {
-			$( "#debug" ).html( "button clicked: " + data + "|" + connection_id + "weather" + new Date().getTime());
-		    }
-		});
-		
 	});
 };
 
@@ -207,7 +197,10 @@ function timedRefresh(timeoutPeriod)
 	disconnected = setTimeout(function()
 		{
 			// write canvas time out
-			alert("disconnected!");
+			context.font="60px Verdana";
+			context.textAlign="center";
+			context.fillStyle="white";
+			context.fillText("disconnected", canvas.width/2, canvas.height/2);
 		}, 3000);
 	img.onload = function() {
 		context.drawImage(img, 0, 0);
