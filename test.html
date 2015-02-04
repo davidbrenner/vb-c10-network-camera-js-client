@@ -43,6 +43,7 @@
 
 <script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
 <script src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+<div id="init-time"></div>
 <div id="conn"></div>
 <div id="debug"></div>
 <div id="server-data"></div>
@@ -65,7 +66,7 @@ $.ajax({
 	connection_id = connection_id.replace(/(\r\n|\n|\r)/gm,"");
 	imageURL = "http://lakeminnetonkawebcam.mooo.com/-wvhttp-01-/GetLiveImage?connection_id=" + connection_id;
 	timedRefresh(50);
-        $( "#conn" ).html( "Debug Links: <br />"
+        $( "#conn" ).html( "Connection id: " + connection_id + "<br />" + "Debug Links: <br />"
 		+ "<a href='http://lakeminnetonkawebcam.mooo.com/-wvhttp-01-/GetLiveImage?connection_id=" + connection_id +"' >GetLiveImage</a><br />"
 		+ "<a href='http://lakeminnetonkawebcam.mooo.com/-wvhttp-01-/GetCameraServerInfo?connection_id=" + connection_id +"' >GetCameraServerInfo</a><br />"
 		+ "<a href='http://lakeminnetonkawebcam.mooo.com/-wvhttp-01-/GetNotice?timeout=1000&connection_id=" + connection_id +"' >GetNotice</a><br />"
@@ -77,6 +78,7 @@ $.ajax({
 		+ "<a href='http://lakeminnetonkawebcam.mooo.com/-wvhttp-01-/GetPanoramaImage?connection_id=" + connection_id +"' >GetPanoramaImage</a><br />"
 		+ "<a href='http://lakeminnetonkawebcam.mooo.com/-wvhttp-01-/GetPresetList?language=English&character_set=ascii&connection_id=" + connection_id +"' >GetPresetList</a><br />"
 		+ "<a href='http://lakeminnetonkawebcam.mooo.com/-wvhttp-01-/CloseCameraServer?connection_id=" + connection_id +"' >CloseCameraServer</a><br />");
+	$( "#init-time" ).html("Initial time: " + new Date().getTime());
         $( "#control-cam" ).html( "<button>Take control</button>");
 	setUpButton();
 	getPresetList();
@@ -93,7 +95,7 @@ function setUpButton()
 		    data: { },
 		    success: function( data ) {
 			$( "#debug" ).html( "button clicked: " + data + "|" + connection_id + cameraURL+"?path=GetCameraControl" + encodeURIComponent("?connection_id="+connection_id) + new Date().getTime());
-			setUpControl();
+			requestControl();
 		    }
 		});
 		
@@ -166,6 +168,49 @@ function getPresetList()
 	});
 };
 
+function requestControl()
+{
+	// call GetNotice 3x. 3rd time indicates control or wait time.
+	$.ajax({
+	    url: cameraURL+"?path=GetNotice" + encodeURIComponent("?connection_id="+connection_id),
+	    data: { },
+	    success: function( data ) {
+		$( "#debug" ).html( "GetNotice1: " + data + new Date().getTime());
+		console.log( "GetNotice1: " + data + new Date().getTime());
+		// returns:
+		// 	video_capture_server
+		// 	connection_established
+
+	    }
+	});
+	$.ajax({
+	    url: cameraURL+"?path=GetNotice" + encodeURIComponent("?connection_id="+connection_id),
+	    data: { },
+	    success: function( data ) {
+		$( "#debug" ).html( "GetNotice2: " + data + new Date().getTime());
+		console.log( "GetNotice2: " + data + new Date().getTime());
+		// returns:
+		// 	camera_control_server
+		// 	connection_established
+	    }
+	});
+	$.ajax({
+	    url: cameraURL+"?path=GetNotice" + encodeURIComponent("?connection_id="+connection_id),
+	    data: { },
+	    success: function( data ) {
+		$( "#debug" ).html( "GetNotice3: " + data + new Date().getTime());
+		console.log( "GetNotice3: " + data + new Date().getTime());
+		// returns:
+		//	enabled_camera_control
+		//	time_limit=53195
+		// or
+		// 	waiting_camera_control
+		// 	wait_time=17817
+		setUpControl();
+	    }
+	});
+};
+
 function setUpControl()
 {
 	
@@ -201,6 +246,7 @@ function timedRefresh(timeoutPeriod)
 			context.textAlign="center";
 			context.fillStyle="white";
 			context.fillText("disconnected", canvas.width/2, canvas.height/2);
+			$( "#control-cam" ).html("<p>Please refresh page to continue viewing webcam</p>");
 		}, 3000);
 	img.onload = function() {
 		context.drawImage(img, 0, 0);
