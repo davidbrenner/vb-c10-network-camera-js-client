@@ -55,15 +55,15 @@
 <div id="countdown"></div>
 <div id="control-cam"></div>
 <div id="canvas" style="float:left; display:inline;">
-<canvas id="x" width="640" height="480">
-</canvas>
+    <canvas id="x" width="640" height="480">
+    </canvas>
 </div>
 <div id="slider-group" style="float:left; display:inline; display: none;">
-<p>
-	<label for="amount">Zoom:</label>
-	<input type="text" id="amount" readonly style="border:0; color:#f6931f; font-weight:bold;">
-</p>
-<div id="slider-vertical" style="height:410px;"></div>
+    <p>
+    <label for="amount">Zoom:</label>
+    <input type="text" id="amount" readonly style="border:0; color:#f6931f; font-weight:bold;">
+    </p>
+    <div id="slider-vertical" style="height:410px;"></div>
 </div>
 
 
@@ -79,46 +79,46 @@ $.ajax({
     url: cameraURL+"?path=OpenCameraServer",
     data: { },
     success: function( data ) {
-	connection_id = data.split('=')[1]
-	connection_id = connection_id.replace(/(\r\n|\n|\r)/gm,"");
-	imageURL = "http://lakeminnetonkawebcam.mooo.com/-wvhttp-01-/GetLiveImage?connection_id=" + connection_id;
-	timedRefresh(50);
+        connection_id = data.split('=')[1]
+            connection_id = connection_id.replace(/(\r\n|\n|\r)/gm,"");
+        imageURL = "http://lakeminnetonkawebcam.mooo.com/-wvhttp-01-/GetLiveImage?connection_id=" + connection_id;
+        timedRefresh(50);
         $( "#conn" ).html( "Connection id: " + connection_id + "<br />" + "Debug Links: <br />"
-		+ "<a href='http://lakeminnetonkawebcam.mooo.com/-wvhttp-01-/GetLiveImage?connection_id=" + connection_id +"' >GetLiveImage</a><br />"
-		+ "<a href='http://lakeminnetonkawebcam.mooo.com/-wvhttp-01-/GetCameraServerInfo?connection_id=" + connection_id +"' >GetCameraServerInfo</a><br />"
-		+ "<a href='http://lakeminnetonkawebcam.mooo.com/-wvhttp-01-/GetNotice?timeout=1000&connection_id=" + connection_id +"' >GetNotice</a><br />"
-		+ "<a href='http://lakeminnetonkawebcam.mooo.com/-wvhttp-01-/GetCameraControl?connection_id=" + connection_id +"' >GetCameraControl</a><br />"
-		+ "<a href='http://lakeminnetonkawebcam.mooo.com/-wvhttp-01-/OperateCamera?pan=-2000&tilt=-900&zoom=2500&back_light=off&camera_id=1&connection_id=" + connection_id +"' >OperateCamera</a><br />"
-		+ "<a href='http://lakeminnetonkawebcam.mooo.com/-wvhttp-01-/OperateCameraOnScreen?pan=-100&tilt=100&connection_id=" + connection_id +"' >OperateCameraOnScreen</a><br />"
-		+ "<a href='http://lakeminnetonkawebcam.mooo.com/-wvhttp-01-/GetPanoramaList?connection_id=" + connection_id +"' >GetPanoramaList</a><br />"
-		+ "<a href='http://lakeminnetonkawebcam.mooo.com/-wvhttp-01-/GetVideoInfo?connection_id=" + connection_id +"' >GetVideoInfo</a><br />"
-		+ "<a href='http://lakeminnetonkawebcam.mooo.com/-wvhttp-01-/GetCameraInfo?connection_id=" + connection_id +"' >GetCameraInfo</a><br />"
-		+ "<a href='http://lakeminnetonkawebcam.mooo.com/-wvhttp-01-/GetPanoramaImage?connection_id=" + connection_id +"' >GetPanoramaImage</a><br />"
-		+ "<a href='http://lakeminnetonkawebcam.mooo.com/-wvhttp-01-/GetPresetList?language=English&character_set=ascii&connection_id=" + connection_id +"' >GetPresetList</a><br />"
-		+ "<a href='http://lakeminnetonkawebcam.mooo.com/-wvhttp-01-/CloseCameraServer?connection_id=" + connection_id +"' >CloseCameraServer</a><br />");
-	$( "#init-time" ).html("Session initialization timestamp: " + new Date().getTime());
-	setUpButton();
-	getPresetList();
+                + "<a href='http://lakeminnetonkawebcam.mooo.com/-wvhttp-01-/GetLiveImage?connection_id=" + connection_id +"' >GetLiveImage</a><br />"
+                + "<a href='http://lakeminnetonkawebcam.mooo.com/-wvhttp-01-/GetCameraServerInfo?connection_id=" + connection_id +"' >GetCameraServerInfo</a><br />"
+                + "<a href='http://lakeminnetonkawebcam.mooo.com/-wvhttp-01-/GetNotice?timeout=1000&connection_id=" + connection_id +"' >GetNotice</a><br />"
+                + "<a href='http://lakeminnetonkawebcam.mooo.com/-wvhttp-01-/GetCameraControl?connection_id=" + connection_id +"' >GetCameraControl</a><br />"
+                + "<a href='http://lakeminnetonkawebcam.mooo.com/-wvhttp-01-/OperateCamera?pan=-2000&tilt=-900&zoom=2500&back_light=off&camera_id=1&connection_id=" + connection_id +"' >OperateCamera</a><br />"
+                + "<a href='http://lakeminnetonkawebcam.mooo.com/-wvhttp-01-/OperateCameraOnScreen?pan=-100&tilt=100&connection_id=" + connection_id +"' >OperateCameraOnScreen</a><br />"
+                + "<a href='http://lakeminnetonkawebcam.mooo.com/-wvhttp-01-/GetPanoramaList?connection_id=" + connection_id +"' >GetPanoramaList</a><br />"
+                + "<a href='http://lakeminnetonkawebcam.mooo.com/-wvhttp-01-/GetVideoInfo?connection_id=" + connection_id +"' >GetVideoInfo</a><br />"
+                + "<a href='http://lakeminnetonkawebcam.mooo.com/-wvhttp-01-/GetCameraInfo?connection_id=" + connection_id +"' >GetCameraInfo</a><br />"
+                + "<a href='http://lakeminnetonkawebcam.mooo.com/-wvhttp-01-/GetPanoramaImage?connection_id=" + connection_id +"' >GetPanoramaImage</a><br />"
+                + "<a href='http://lakeminnetonkawebcam.mooo.com/-wvhttp-01-/GetPresetList?language=English&character_set=ascii&connection_id=" + connection_id +"' >GetPresetList</a><br />"
+                + "<a href='http://lakeminnetonkawebcam.mooo.com/-wvhttp-01-/CloseCameraServer?connection_id=" + connection_id +"' >CloseCameraServer</a><br />");
+        $( "#init-time" ).html("Session initialization timestamp: " + new Date().getTime());
+        setUpButton();
+        getPresetList();
     }
 });
 
 function setUpButton()
 {
-        $( "#control-cam" ).html( "<button>Take control</button>");
-	$( "#control-cam button" ).on( "click", function( event ) {
-		$( "#debug" ).html( "take control button clicked");
-		$.ajax({
+    $( "#control-cam" ).html( "<button>Take control</button>");
+    $( "#control-cam button" ).on( "click", function( event ) {
+        $( "#debug" ).html( "take control button clicked");
+        $.ajax({
 
-		    url: cameraURL+"?path=GetCameraControl" + encodeURIComponent("?connection_id="+connection_id),
-		    data: { },
-		    success: function( data ) {
-			$( "#debug" ).html( "take control button clicked: " + data + "|" + connection_id + cameraURL+"?path=GetCameraControl" + encodeURIComponent("?connection_id="+connection_id) + new Date().getTime());
-			getNotice();
-			requestControl();
-		    }
-		});
-		
-	});
+            url: cameraURL+"?path=GetCameraControl" + encodeURIComponent("?connection_id="+connection_id),
+            data: { },
+            success: function( data ) {
+                $( "#debug" ).html( "take control button clicked: " + data + "|" + connection_id + cameraURL+"?path=GetCameraControl" + encodeURIComponent("?connection_id="+connection_id) + new Date().getTime());
+                getNotice();
+                requestControl();
+            }
+        });
+
+    });
 };
 
 
@@ -142,265 +142,265 @@ function setUpButton()
 var presetList = [];
 function getPresetList()
 {
-	$.ajax({
+    $.ajax({
 
-	    url: cameraURL+"?path=GetPresetList" + encodeURIComponent("?language=English&character_set=ascii&connection_id="+connection_id),
-	    data: { },
-	    success: function( data ) {
-		var writePosition = 0;
-		var curPosition = 0;
-		$.each(data.split('\n'), function(index, line) {
-			var line = line.replace(/(\r|\n)/gm,"");
-			//console.log( index + ": " + line );
-			var declaration = line.split('=');
-			//if(declaration[0]=='number_of_camera_positions')
-			//{
-				//presetList
-				//console.log( index + ": got camera positions: " + declaration[1]);
-			//}
-			if(line=='')
-			{
-				if(writePosition) curPosition++;
-				writePosition = 0;
-				//console.log( index + ": got blank line");
-			}
-			if(writePosition)
-			{
-				//console.log( index + "---curPosition, declaration " + curPosition + ',' + declaration[1]);
-				presetList[curPosition][declaration[0]] = declaration[1];
-				//console.log( index + ": add to preset list: " + declaration[0] + "=" + declaration[1]);
-			}
+        url: cameraURL+"?path=GetPresetList" + encodeURIComponent("?language=English&character_set=ascii&connection_id="+connection_id),
+        data: { },
+        success: function( data ) {
+            var writePosition = 0;
+            var curPosition = 0;
+            $.each(data.split('\n'), function(index, line) {
+                var line = line.replace(/(\r|\n)/gm,"");
+                //console.log( index + ": " + line );
+                var declaration = line.split('=');
+                //if(declaration[0]=='number_of_camera_positions')
+                //{
+                //presetList
+                //console.log( index + ": got camera positions: " + declaration[1]);
+                //}
+                if(line=='')
+                {
+                    if(writePosition) curPosition++;
+                    writePosition = 0;
+                    //console.log( index + ": got blank line");
+                }
+                if(writePosition)
+                {
+                    //console.log( index + "---curPosition, declaration " + curPosition + ',' + declaration[1]);
+                    presetList[curPosition][declaration[0]] = declaration[1];
+                    //console.log( index + ": add to preset list: " + declaration[0] + "=" + declaration[1]);
+                }
 
-			if(declaration[0].substring(0,8)=='position')
-			{
-				var name = declaration[1];
-				presetList[curPosition] = {};
-				presetList[curPosition]['name'] = name;
-				writePosition = 1;
-				//console.log( index + ": got position #" + curPosition + " name: " + declaration[1]);
-			}
-		});
-		
-		//$( "#debug" ).html( "data: " + data + "|" + new Date().getTime());
-		//connection_id = connection_id.replace(/(\r\n|\n|\r)/gm,"");
-	    }
-	});
+                if(declaration[0].substring(0,8)=='position')
+                {
+                    var name = declaration[1];
+                    presetList[curPosition] = {};
+                    presetList[curPosition]['name'] = name;
+                    writePosition = 1;
+                    //console.log( index + ": got position #" + curPosition + " name: " + declaration[1]);
+                }
+            });
+
+            //$( "#debug" ).html( "data: " + data + "|" + new Date().getTime());
+            //connection_id = connection_id.replace(/(\r\n|\n|\r)/gm,"");
+        }
+    });
 };
 
 function getNotice()
 {
-	// call GetNotice 2x.
-	$.ajax({
-	    url: cameraURL+"?path=GetNotice" + encodeURIComponent("?connection_id="+connection_id),
-	    data: { },
-	    success: function( data ) {
-		$( "#debug" ).html( "GetNotice1: " + data + new Date().getTime());
-		//console.log( "GetNotice1: " + data + new Date().getTime());
-		// returns:
-		// 	video_capture_server
-		// 	connection_established
+    // call GetNotice 2x.
+    $.ajax({
+        url: cameraURL+"?path=GetNotice" + encodeURIComponent("?connection_id="+connection_id),
+        data: { },
+        success: function( data ) {
+            $( "#debug" ).html( "GetNotice1: " + data + new Date().getTime());
+            //console.log( "GetNotice1: " + data + new Date().getTime());
+            // returns:
+            // 	video_capture_server
+            // 	connection_established
 
-	    }
-	});
-	$.ajax({
-	    url: cameraURL+"?path=GetNotice" + encodeURIComponent("?connection_id="+connection_id),
-	    data: { },
-	    success: function( data ) {
-		$( "#debug" ).html( "GetNotice2: " + data + new Date().getTime());
-		//console.log( "GetNotice2: " + data + new Date().getTime());
-		// returns:
-		// 	camera_control_server
-		// 	connection_established
-	    }
-	});
+        }
+    });
+    $.ajax({
+        url: cameraURL+"?path=GetNotice" + encodeURIComponent("?connection_id="+connection_id),
+        data: { },
+        success: function( data ) {
+            $( "#debug" ).html( "GetNotice2: " + data + new Date().getTime());
+            //console.log( "GetNotice2: " + data + new Date().getTime());
+            // returns:
+            // 	camera_control_server
+            // 	connection_established
+        }
+    });
 
 };
 
 function countdown(str, time_remaining, finishedCallback)
 {
-	var counter = time_remaining;
-	$( "#countdown" ).html(str + counter);
-	var interval = setInterval(function() {
-	    counter--;
-	    $( "#countdown" ).html(str + counter);
-	    if (counter == 0) {
-		clearInterval(interval);
-		$( "#countdown" ).html("");
-		finishedCallback();
-	    }
-	}, 1000);
+    var counter = time_remaining;
+    $( "#countdown" ).html(str + counter);
+    var interval = setInterval(function() {
+        counter--;
+        $( "#countdown" ).html(str + counter);
+        if (counter == 0) {
+            clearInterval(interval);
+            $( "#countdown" ).html("");
+            finishedCallback();
+        }
+    }, 1000);
 };
 function requestControl()
 {
-	// 3rd time indicates control or wait time.
-	$.ajax({
-	    url: cameraURL+"?path=GetNotice" + encodeURIComponent("?connection_id="+connection_id),
-	    data: { },
-	    success: function( data ) {
-		$( "#debug" ).html( "GetNotice3: " + data + new Date().getTime());
-		//console.log( "GetNotice3: " + data + new Date().getTime());
-		// returns:
-		//	enabled_camera_control
-		//	time_limit=53195
-		// or
-		// 	waiting_camera_control
-		// 	wait_time=17817
-		var wait = 0;
-		$.each(data.split('\n'), function(index, line) {
-			var line = line.replace(/(\r|\n)/gm,"");
-			if(line=="waiting_camera_control" || line=="enabled_camera_control")
-			{
-				wait = 1;
-			}
-			else if(wait == 1)
-			{
-				var line = line.split('=')
-				var wait_or_limit = line[0]
-				var time_limit = line[1]
-				var time_remaining = Math.ceil(parseInt(time_limit)/1000)+1;
-				if(wait_or_limit == "wait_time")
-				{
-					// wait
-					//console.log("waiting, time limit: " + time_limit + " remaining: " + time_remaining);
-					countdown("Waiting for control. Time remaining: ", time_remaining, requestControl);
-					$( "#control-cam" ).html( "");
-					
-				} else {
-					//console.log("waiting, time limit: " + time_limit + " remaining: " + time_remaining);
-					countdown("Reamining time for control of camera: ", time_remaining, destroyButton);
-					setUpControl();
-				}
-				// break out of jquery .each loop
-				return false; 
+    // 3rd time indicates control or wait time.
+    $.ajax({
+        url: cameraURL+"?path=GetNotice" + encodeURIComponent("?connection_id="+connection_id),
+        data: { },
+        success: function( data ) {
+            $( "#debug" ).html( "GetNotice3: " + data + new Date().getTime());
+            //console.log( "GetNotice3: " + data + new Date().getTime());
+            // returns:
+            //	enabled_camera_control
+            //	time_limit=53195
+            // or
+            // 	waiting_camera_control
+            // 	wait_time=17817
+            var wait = 0;
+            $.each(data.split('\n'), function(index, line) {
+                var line = line.replace(/(\r|\n)/gm,"");
+                if(line=="waiting_camera_control" || line=="enabled_camera_control")
+                {
+                    wait = 1;
+                }
+                else if(wait == 1)
+                {
+                    var line = line.split('=')
+                        var wait_or_limit = line[0]
+                        var time_limit = line[1]
+                        var time_remaining = Math.ceil(parseInt(time_limit)/1000)+1;
+                    if(wait_or_limit == "wait_time")
+                    {
+                        // wait
+                        //console.log("waiting, time limit: " + time_limit + " remaining: " + time_remaining);
+                        countdown("Waiting for control. Time remaining: ", time_remaining, requestControl);
+                        $( "#control-cam" ).html( "");
 
-			}
-		});
-	    }
-	});
+                    } else {
+                        //console.log("waiting, time limit: " + time_limit + " remaining: " + time_remaining);
+                        countdown("Reamining time for control of camera: ", time_remaining, destroyButton);
+                        setUpControl();
+                    }
+                    // break out of jquery .each loop
+                    return false; 
+
+                }
+            });
+        }
+    });
 };
 
 function destroyButton()
 {
-	$( "#control-cam" ).html("Time expired. Please refresh the page if you'd like to continue to control the camera.");
-	$( "#slider-group" ).hide();
-	$("#x").unbind();
+    $( "#control-cam" ).html("Time expired. Please refresh the page if you'd like to continue to control the camera.");
+    $( "#slider-group" ).hide();
+    $("#x").unbind();
 }
 
 function setUpControl()
 {
-	
-	var zoom_min, zoom_max, zoom_val;
-	$( "#control-cam" ).html( "");
-	$.ajax({
-	    url: cameraURL+"?path=GetCameraInfo" + encodeURIComponent("?connection_id="+connection_id),
-	    data: { },
-	    success: function( data ) {
-		$.each(data.split('\n'), function(index, line) {
-			var line = line.replace(/(\r|\n)/gm,"");
-			var declaration = line.split('=');
-			if(line==''){
-				return false;
-			}
-			else
-			{
-				camera[declaration[0]] = declaration[1];
-			}
-		})
-		camera.pan_current_value = parseInt(camera.pan_current_value);
-		camera.pan_left_limit = parseInt(camera.pan_left_limit);
-		camera.pan_right_limit = parseInt(camera.pan_right_limit);
-		camera.tilt_current_value = parseInt(camera.tilt_current_value);
-		camera.tilt_up_limit = parseInt(camera.tilt_up_limit);
-		camera.tilt_down_limit = parseInt(camera.tilt_down_limit);
-		camera.zoom_current_value = parseInt(camera.zoom_current_value);
-		camera.zoom_tele_limit = parseInt(camera.zoom_tele_limit);
-		camera.zoom_wide_limit = parseInt(camera.zoom_wide_limit);
-		zoom_min = camera.zoom_tele_limit;
-		zoom_max = camera.zoom_wide_limit;
-		zoom_val = camera.zoom_current_value;
-		$( "#slider-vertical" ).slider({
-			orientation: "vertical",
-			range: "min",
-			min: zoom_min,
-			max: zoom_max,
-			value: zoom_max-zoom_val,
-			slide: function( event, ui ) {
-				$( "#amount" ).val( ui.value );
-				camera.zoom_current_value = zoom_max-ui.value
-				//console.log("zoom slider: "+cameraURL+"?path=OperateCamera" + "?pan="+camera.pan_current_value+"&tilt="+camera.tilt_current_value+"&zoom="+camera.zoom_current_value+"&camera_id=1&connection_id="+connection_id);
-				$.ajax({
-				    url: cameraURL+"?path=OperateCamera" + encodeURIComponent("?pan="+camera.pan_current_value+"&tilt="+camera.tilt_current_value+"&zoom="+camera.zoom_current_value+"&camera_id=1&connection_id="+connection_id),
-				    data: { },
-				    success: function( data ) {
-					$( "#debug" ).html( "zoom slider changed: " + camera.zoom_current_value + " data: "+ data + "|" + connection_id + "dock" + new Date().getTime());
-				    }
-				});
-			
-			}
-		});
-		$( "#amount" ).val( $( "#slider-vertical" ).slider( "value" ) );
-		$( "#slider-group" ).show();
 
-		// set up canvas click to pan/tilt
-		$("#x").on('click', function(e){
-			var pos = getMouseClickPosition(canvas, e);
-			//console.log("clicked: " + pos.x + "," + pos.y);
-			var pan = Math.floor((2*pos.x-canvas.width) * 100 / canvas.width);
-			var tilt = Math.floor(-(2*pos.y-canvas.height) * 100 / canvas.height);
-			//console.log("new pan,tilt,zoom: " + pan +","+ tilt +","+ camera.zoom_current_value);
-			$.ajax({
-			    url: cameraURL+"?path=OperateCameraOnScreen" + encodeURIComponent("?pan="+pan+"&tilt="+tilt+"&connection_id="+connection_id),
-			    data: { },
-			    success: function( data ) {
-				$( "#debug" ).html( "canvas clicked" + data + "|" + connection_id + "dock" + new Date().getTime());
-				$.ajax({
-				    url: cameraURL+"?path=GetNotice" + encodeURIComponent("?connection_id="+connection_id),
-				    data: { },
-				    success: function( data ) {
-					$( "#debug" ).html( "GetNotice: " + data + new Date().getTime());
-					var first_line = 1;
-					$.each(data.split('\n'), function(index, line) {
-						var line = line.replace(/(\r|\n)/gm,"");
-						var declaration = line.split('=');
-						if(line==''){
-							return false;
-						}
-						else if(declaration['0'] == "pan")
-							camera.pan_current_value = parseInt(declaration[1]);
-						else if(declaration['0'] == "tilt")
-							camera.tilt_current_value = parseInt(declaration[1]);
-							
-						{
-							camera[declaration[0]] = declaration[1];
-						}
-					});
-				    }
-				});
-			    }
-			});
-			
-			
-		});
-	    }
-	});
-	$.each(presetList, function(index, location) {
-		$( "#control-cam" ).append( "<button id='button" + index +"'>" + location.name +"</button>");
-		$( "#button"+index ).on( "click", function( event ) {
-			$.ajax({
-			    url: cameraURL+"?path=OperateCamera" + encodeURIComponent("?pan="+location.pan+"&tilt="+location.tilt+"&zoom="+location.zoom+"&back_light="+location.back_light+"&camera_id=1&connection_id="+connection_id),
-			    data: { },
-			    success: function( data ) {
-				camera.pan_current_value = location.pan;
-				camera.tilt_current_value = location.tilt;
-				camera.zoom_current_value = location.zoom;
-                $( "#slider-vertical" ).slider("option", "value", camera.zoom_current_value );
-                $( "#amount" ).val( $( "#slider-vertical" ).slider( "value" ) );
-				$( "#debug" ).html( "button "+index+" clicked" + data + "|" + connection_id + "dock" + new Date().getTime());
-			    }
-			});
-			
-		});
-	});
+    var zoom_min, zoom_max, zoom_val;
+    $( "#control-cam" ).html( "");
+    $.ajax({
+        url: cameraURL+"?path=GetCameraInfo" + encodeURIComponent("?connection_id="+connection_id),
+        data: { },
+        success: function( data ) {
+            $.each(data.split('\n'), function(index, line) {
+                var line = line.replace(/(\r|\n)/gm,"");
+                var declaration = line.split('=');
+                if(line==''){
+                    return false;
+                }
+                else
+                {
+                    camera[declaration[0]] = declaration[1];
+                }
+            })
+            camera.pan_current_value = parseInt(camera.pan_current_value);
+            camera.pan_left_limit = parseInt(camera.pan_left_limit);
+            camera.pan_right_limit = parseInt(camera.pan_right_limit);
+            camera.tilt_current_value = parseInt(camera.tilt_current_value);
+            camera.tilt_up_limit = parseInt(camera.tilt_up_limit);
+            camera.tilt_down_limit = parseInt(camera.tilt_down_limit);
+            camera.zoom_current_value = parseInt(camera.zoom_current_value);
+            camera.zoom_tele_limit = parseInt(camera.zoom_tele_limit);
+            camera.zoom_wide_limit = parseInt(camera.zoom_wide_limit);
+            zoom_min = camera.zoom_tele_limit;
+            zoom_max = camera.zoom_wide_limit;
+            zoom_val = camera.zoom_current_value;
+            $( "#slider-vertical" ).slider({
+                orientation: "vertical",
+                range: "min",
+                min: zoom_min,
+                max: zoom_max,
+                value: zoom_max-zoom_val,
+                slide: function( event, ui ) {
+                    $( "#amount" ).val( ui.value );
+                    camera.zoom_current_value = zoom_max-ui.value
+                        //console.log("zoom slider: "+cameraURL+"?path=OperateCamera" + "?pan="+camera.pan_current_value+"&tilt="+camera.tilt_current_value+"&zoom="+camera.zoom_current_value+"&camera_id=1&connection_id="+connection_id);
+                        $.ajax({
+                            url: cameraURL+"?path=OperateCamera" + encodeURIComponent("?pan="+camera.pan_current_value+"&tilt="+camera.tilt_current_value+"&zoom="+camera.zoom_current_value+"&camera_id=1&connection_id="+connection_id),
+                            data: { },
+                            success: function( data ) {
+                                $( "#debug" ).html( "zoom slider changed: " + camera.zoom_current_value + " data: "+ data + "|" + connection_id + "dock" + new Date().getTime());
+                            }
+                        });
+
+                }
+            });
+            $( "#amount" ).val( $( "#slider-vertical" ).slider( "value" ) );
+            $( "#slider-group" ).show();
+
+            // set up canvas click to pan/tilt
+            $("#x").on('click', function(e){
+                var pos = getMouseClickPosition(canvas, e);
+                //console.log("clicked: " + pos.x + "," + pos.y);
+                var pan = Math.floor((2*pos.x-canvas.width) * 100 / canvas.width);
+                var tilt = Math.floor(-(2*pos.y-canvas.height) * 100 / canvas.height);
+                //console.log("new pan,tilt,zoom: " + pan +","+ tilt +","+ camera.zoom_current_value);
+                $.ajax({
+                    url: cameraURL+"?path=OperateCameraOnScreen" + encodeURIComponent("?pan="+pan+"&tilt="+tilt+"&connection_id="+connection_id),
+                    data: { },
+                    success: function( data ) {
+                        $( "#debug" ).html( "canvas clicked" + data + "|" + connection_id + "dock" + new Date().getTime());
+                        $.ajax({
+                            url: cameraURL+"?path=GetNotice" + encodeURIComponent("?connection_id="+connection_id),
+                            data: { },
+                            success: function( data ) {
+                                $( "#debug" ).html( "GetNotice: " + data + new Date().getTime());
+                                var first_line = 1;
+                                $.each(data.split('\n'), function(index, line) {
+                                    var line = line.replace(/(\r|\n)/gm,"");
+                                    var declaration = line.split('=');
+                                    if(line==''){
+                                        return false;
+                                    }
+                                    else if(declaration['0'] == "pan")
+                                        camera.pan_current_value = parseInt(declaration[1]);
+                                    else if(declaration['0'] == "tilt")
+                                        camera.tilt_current_value = parseInt(declaration[1]);
+
+                                    {
+                                        camera[declaration[0]] = declaration[1];
+                                    }
+                                });
+                            }
+                        });
+                    }
+                });
+
+
+            });
+        }
+    });
+    $.each(presetList, function(index, location) {
+        $( "#control-cam" ).append( "<button id='button" + index +"'>" + location.name +"</button>");
+        $( "#button"+index ).on( "click", function( event ) {
+            $.ajax({
+                url: cameraURL+"?path=OperateCamera" + encodeURIComponent("?pan="+location.pan+"&tilt="+location.tilt+"&zoom="+location.zoom+"&back_light="+location.back_light+"&camera_id=1&connection_id="+connection_id),
+                data: { },
+                success: function( data ) {
+                    camera.pan_current_value = location.pan;
+                    camera.tilt_current_value = location.tilt;
+                    camera.zoom_current_value = location.zoom;
+                    $( "#slider-vertical" ).slider("option", "value", camera.zoom_current_value );
+                    $( "#amount" ).val( $( "#slider-vertical" ).slider( "value" ) );
+                    $( "#debug" ).html( "button "+index+" clicked" + data + "|" + connection_id + "dock" + new Date().getTime());
+                }
+            });
+
+        });
+    });
 };
 
 // get mouse position relative to canvas
@@ -417,30 +417,30 @@ function getMouseClickPosition(canvas, e) {
 var canvas, context, img, disconnected;
 function timedRefresh(timeoutPeriod)
 {
-	canvas = document.getElementById("x");
-	context = canvas.getContext("2d");
-	img = new Image();
-	img.src = imageURL + "&timeout=" + new Date().getTime();
-	// debug:
-	context.drawImage(img, 0, 0);
-	disconnected = setTimeout(function()
-		{
-			// write canvas time out
-			context.font="61px Verdana";
-			context.textAlign="center";
-			context.fillStyle="red";
-			context.fillText("disconnected", canvas.width/2, canvas.height/2);
-			context.font="60px Verdana";
-			context.textAlign="center";
-			context.fillStyle="white";
-			context.fillText("disconnected", canvas.width/2, canvas.height/2);
-			$( "#control-cam" ).html("<p>Please refresh page to continue viewing webcam</p>");
-		}, 3000);
-	img.onload = function() {
-		context.drawImage(img, 0, 0);
-		$( "#server-data" ).html("Most recent image timestamp: " + new Date().getTime());
-		clearTimeout(disconnected);
-		setTimeout("timedRefresh("+timeoutPeriod+")",timeoutPeriod);
-	};
+    canvas = document.getElementById("x");
+    context = canvas.getContext("2d");
+    img = new Image();
+    img.src = imageURL + "&timeout=" + new Date().getTime();
+    // debug:
+    context.drawImage(img, 0, 0);
+    disconnected = setTimeout(function()
+            {
+                // write canvas time out
+                context.font="61px Verdana";
+                context.textAlign="center";
+                context.fillStyle="red";
+                context.fillText("disconnected", canvas.width/2, canvas.height/2);
+                context.font="60px Verdana";
+                context.textAlign="center";
+                context.fillStyle="white";
+                context.fillText("disconnected", canvas.width/2, canvas.height/2);
+                $( "#control-cam" ).html("<p>Please refresh page to continue viewing webcam</p>");
+            }, 3000);
+    img.onload = function() {
+        context.drawImage(img, 0, 0);
+        $( "#server-data" ).html("Most recent image timestamp: " + new Date().getTime());
+        clearTimeout(disconnected);
+        setTimeout("timedRefresh("+timeoutPeriod+")",timeoutPeriod);
+    };
 }
 </script>
