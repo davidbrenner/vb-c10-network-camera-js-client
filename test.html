@@ -394,6 +394,7 @@ function setUpControl()
 				camera.tilt_current_value = location.tilt;
 				camera.zoom_current_value = location.zoom;
                 $( "#slider-vertical" ).slider("option", "value", camera.zoom_current_value );
+                $( "#amount" ).val( $( "#slider-vertical" ).slider( "value" ) );
 				$( "#debug" ).html( "button "+index+" clicked" + data + "|" + connection_id + "dock" + new Date().getTime());
 			    }
 			});
