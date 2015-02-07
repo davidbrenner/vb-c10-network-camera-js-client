@@ -327,7 +327,6 @@ function setUpControl()
 			slide: function( event, ui ) {
 				$( "#amount" ).val( ui.value );
 				camera.zoom_current_value = zoom_max-ui.value
-				// TODO: Fix this .. working on the zoom, need to implement GetCameraInfo
 				//console.log("zoom slider: "+cameraURL+"?path=OperateCamera" + "?pan="+camera.pan_current_value+"&tilt="+camera.tilt_current_value+"&zoom="+camera.zoom_current_value+"&camera_id=1&connection_id="+connection_id);
 				$.ajax({
 				    url: cameraURL+"?path=OperateCamera" + encodeURIComponent("?pan="+camera.pan_current_value+"&tilt="+camera.tilt_current_value+"&zoom="+camera.zoom_current_value+"&camera_id=1&connection_id="+connection_id),
@@ -353,7 +352,6 @@ function setUpControl()
 			    url: cameraURL+"?path=OperateCameraOnScreen" + encodeURIComponent("?pan="+pan+"&tilt="+tilt+"&connection_id="+connection_id),
 			    data: { },
 			    success: function( data ) {
-				// TODO: fix current values by calling GetNotice
 				$( "#debug" ).html( "canvas clicked" + data + "|" + connection_id + "dock" + new Date().getTime());
 				$.ajax({
 				    url: cameraURL+"?path=GetNotice" + encodeURIComponent("?connection_id="+connection_id),
@@ -395,6 +393,7 @@ function setUpControl()
 				camera.pan_current_value = location.pan;
 				camera.tilt_current_value = location.tilt;
 				camera.zoom_current_value = location.zoom;
+                $( "#slider-vertical" ).slider("option", "value", camera.zoom_current_value );
 				$( "#debug" ).html( "button "+index+" clicked" + data + "|" + connection_id + "dock" + new Date().getTime());
 			    }
 			});
