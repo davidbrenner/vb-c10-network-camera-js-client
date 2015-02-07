@@ -58,12 +58,28 @@
     <canvas id="x" width="640" height="480">
     </canvas>
 </div>
-<div id="slider-group" style="float:left; display:inline; display: none; padding-left: 50px;">
-    <p>
-    <label for="zoom-slider-amount">Zoom:</label>
-    <input type="text" id="zoom-slider-amount" readonly style="border:0; color:#f6931f; font-weight:bold;">
-    </p>
-    <div id="zoom-slider" style="height:410px;"></div>
+<div id="slider-group" style="display: none">
+    <div id="tilt-slider-group" style="float:left; display:inline; padding-left: 50px;">
+        <p>
+        <label for="tilt-slider-amount">Tilt:</label>
+        <input type="text" id="tilt-slider-amount" readonly style="border:0; color:#f6931f; font-weight:bold; width: 100px;">
+        </p>
+        <div id="tilt-slider" style="height:410px;"></div>
+    </div>
+    <div id="zoom-slider-group" style="float:left; display:inline;">
+        <p>
+        <label for="zoom-slider-amount">Zoom:</label>
+        <input type="text" id="zoom-slider-amount" readonly style="border:0; color:#f6931f; font-weight:bold; width: 100px;">
+        </p>
+        <div id="zoom-slider" style="height:410px;"></div>
+    </div>
+    <div id="pan-slider-group" style="display: block;">
+        <p>
+        <label for="pan-slider-amount">Pan:</label>
+        <input type="text" id="pan-slider-amount" readonly style="border:0; color:#f6931f; font-weight:bold;">
+        </p>
+        <div id="pan-slider" style="width: 640px"></div>
+    </div>
 </div>
 
 
@@ -310,9 +326,38 @@ function setUpControl()
             camera.zoom_current_value = parseInt(camera.zoom_current_value);
             camera.zoom_tele_limit = parseInt(camera.zoom_tele_limit);
             camera.zoom_wide_limit = parseInt(camera.zoom_wide_limit);
+
+            pan_min = camera.pan_left_limit;
+            pan_max = camera.pan_right_limit;
+            pan_val = camera.pan_current_value;
+            tilt_min = camera.tilt_down_limit;
+            tilt_max = camera.tilt_up_limit;
+            tilt_val = camera.tilt_current_value;
             zoom_min = camera.zoom_tele_limit;
             zoom_max = camera.zoom_wide_limit;
             zoom_val = camera.zoom_current_value;
+
+            $( "#tilt-slider" ).slider({
+                orientation: "vertical",
+                range: "min",
+                min: tilt_min,
+                max: tilt_max,
+                value: tilt_val,
+                slide: function( event, ui ) {
+                    $( "#tilt-slider-amount" ).val( ui.value );
+                    camera.tilt_current_value = ui.value
+                        //console.log("tilt slider: "+cameraURL+"?path=OperateCamera" + "?pan="+camera.pan_current_value+"&tilt="+camera.tilt_current_value+"&zoom="+camera.zoom_current_value+"&camera_id=1&connection_id="+connection_id);
+                        $.ajax({
+                            url: cameraURL+"?path=OperateCamera" + encodeURIComponent("?pan="+camera.pan_current_value+"&tilt="+camera.tilt_current_value+"&zoom="+camera.zoom_current_value+"&camera_id=1&connection_id="+connection_id),
+                            data: { },
+                            success: function( data ) {
+                                $( "#debug" ).html( "tilt slider changed: " + camera.tilt_current_value + " data: "+ data + "|" + connection_id + "dock" + new Date().getTime());
+                            }
+                        });
+
+                }
+            });
+            $( "#tilt-slider-amount" ).val( $( "#tilt-slider" ).slider( "value" ) );
             $( "#zoom-slider" ).slider({
                 orientation: "vertical",
                 range: "min",
@@ -334,6 +379,27 @@ function setUpControl()
                 }
             });
             $( "#zoom-slider-amount" ).val( $( "#zoom-slider" ).slider( "value" ) );
+            $( "#pan-slider" ).slider({
+                orientation: "horizontal",
+                range: "min",
+                min: pan_min,
+                max: pan_max,
+                value: pan_val,
+                slide: function( event, ui ) {
+                    $( "#pan-slider-amount" ).val( ui.value );
+                    camera.pan_current_value = ui.value
+                        //console.log("pan slider: "+cameraURL+"?path=OperateCamera" + "?pan="+camera.pan_current_value+"&tilt="+camera.tilt_current_value+"&zoom="+camera.zoom_current_value+"&camera_id=1&connection_id="+connection_id);
+                        $.ajax({
+                            url: cameraURL+"?path=OperateCamera" + encodeURIComponent("?pan="+camera.pan_current_value+"&tilt="+camera.tilt_current_value+"&zoom="+camera.zoom_current_value+"&camera_id=1&connection_id="+connection_id),
+                            data: { },
+                            success: function( data ) {
+                                $( "#debug" ).html( "pan slider changed: " + camera.pan_current_value + " data: "+ data + "|" + connection_id + "dock" + new Date().getTime());
+                            }
+                        });
+
+                }
+            });
+            $( "#pan-slider-amount" ).val( $( "#pan-slider" ).slider( "value" ) );
             $( "#slider-group" ).show();
 
             // set up canvas click to pan/tilt
@@ -374,6 +440,11 @@ function setUpControl()
                                         camera[declaration[0]] = declaration[1];
                                     }
                                 });
+                                // update pan and tilt sliders and values (zoom won't change)
+                                $( "#pan-slider" ).slider("option", "value", camera.pan_current_value );
+                                $( "#pan-slider-amount" ).val( $( "#pan-slider" ).slider( "value" ) );
+                                $( "#tilt-slider" ).slider("option", "value", camera.tilt_current_value );
+                                $( "#tilt-slider-amount" ).val( $( "#tilt-slider" ).slider( "value" ) );
                             }
                         });
                     }
@@ -393,7 +464,11 @@ function setUpControl()
                     camera.pan_current_value = location.pan;
                     camera.tilt_current_value = location.tilt;
                     camera.zoom_current_value = location.zoom;
-                    // update zoom slider and value
+                    // update pan,tilt, and zoom sliders and values
+                    $( "#pan-slider" ).slider("option", "value", camera.pan_current_value );
+                    $( "#pan-slider-amount" ).val( $( "#pan-slider" ).slider( "value" ) );
+                    $( "#tilt-slider" ).slider("option", "value", camera.tilt_current_value );
+                    $( "#tilt-slider-amount" ).val( $( "#tilt-slider" ).slider( "value" ) );
                     $( "#zoom-slider" ).slider("option", "value", camera.zoom_current_value );
                     $( "#zoom-slider-amount" ).val( $( "#zoom-slider" ).slider( "value" ) );
                     $( "#debug" ).html( "button "+index+" clicked" + data + "|" + connection_id + "dock" + new Date().getTime());
