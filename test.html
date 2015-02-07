@@ -290,11 +290,26 @@ function requestControl()
     });
 };
 
+// Close connection to server
+$(window).on('beforeunload', function(){
+    destroyButton();
+    return 'Closing connection to server...'
+});
+
 function destroyButton()
 {
     $( "#control-cam" ).html("Time expired. Please refresh the page if you'd like to continue to control the camera.");
     $( "#slider-group" ).hide();
     $("#x").unbind();
+    $.ajax({
+
+        url: cameraURL+"?path=CloseCameraServer" + encodeURIComponent("?connection_id="+connection_id),
+        data: { },
+        success: function( data ) {
+            $( "#debug" ).html( "Closed connection to camera server: " + data + "|" + connection_id + cameraURL+"?path=ClosecameraServer" + encodeURIComponent("?connection_id="+connection_id) + new Date().getTime());
+        }
+    });
+    $(window).unbind('beforeunload');
 }
 
 function setUpControl()
@@ -510,6 +525,7 @@ function timedRefresh(timeoutPeriod)
                 context.textAlign="center";
                 context.fillStyle="white";
                 context.fillText("disconnected", canvas.width/2, canvas.height/2);
+                destroyButton();
                 $( "#control-cam" ).html("<p>Please refresh page to continue viewing webcam</p>");
             }, 3000);
     img.onload = function() {
