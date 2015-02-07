@@ -58,7 +58,7 @@
     <canvas id="x" width="640" height="480">
     </canvas>
 </div>
-<div id="slider-group" style="float:left; display:inline; display: none;">
+<div id="slider-group" style="float:left; display:inline; display: none; padding-left: 50px;">
     <p>
     <label for="zoom-slider-amount">Zoom:</label>
     <input type="text" id="zoom-slider-amount" readonly style="border:0; color:#f6931f; font-weight:bold;">
@@ -153,11 +153,6 @@ function getPresetList()
                 var line = line.replace(/(\r|\n)/gm,"");
                 //console.log( index + ": " + line );
                 var declaration = line.split('=');
-                //if(declaration[0]=='number_of_camera_positions')
-                //{
-                //presetList
-                //console.log( index + ": got camera positions: " + declaration[1]);
-                //}
                 if(line=='')
                 {
                     if(writePosition) curPosition++;
@@ -345,14 +340,19 @@ function setUpControl()
             $("#x").on('click', function(e){
                 var pos = getMouseClickPosition(canvas, e);
                 //console.log("clicked: " + pos.x + "," + pos.y);
+
+                // pan/tilt arguments expect +/- percentage (0-100) to move camera
                 var pan = Math.floor((2*pos.x-canvas.width) * 100 / canvas.width);
                 var tilt = Math.floor(-(2*pos.y-canvas.height) * 100 / canvas.height);
                 //console.log("new pan,tilt,zoom: " + pan +","+ tilt +","+ camera.zoom_current_value);
+
+                // call OperateCameraOnScreen method
                 $.ajax({
                     url: cameraURL+"?path=OperateCameraOnScreen" + encodeURIComponent("?pan="+pan+"&tilt="+tilt+"&connection_id="+connection_id),
                     data: { },
                     success: function( data ) {
                         $( "#debug" ).html( "canvas clicked" + data + "|" + connection_id + "dock" + new Date().getTime());
+                        // get back current camera position
                         $.ajax({
                             url: cameraURL+"?path=GetNotice" + encodeURIComponent("?connection_id="+connection_id),
                             data: { },
@@ -393,6 +393,7 @@ function setUpControl()
                     camera.pan_current_value = location.pan;
                     camera.tilt_current_value = location.tilt;
                     camera.zoom_current_value = location.zoom;
+                    // update zoom slider and value
                     $( "#zoom-slider" ).slider("option", "value", camera.zoom_current_value );
                     $( "#zoom-slider-amount" ).val( $( "#zoom-slider" ).slider( "value" ) );
                     $( "#debug" ).html( "button "+index+" clicked" + data + "|" + connection_id + "dock" + new Date().getTime());
