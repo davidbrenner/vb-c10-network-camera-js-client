@@ -54,31 +54,33 @@
 <br />
 <div id="countdown"></div>
 <div id="control-cam"></div>
-<div id="canvas" style="float:left; display:inline;">
-    <canvas id="x" width="640" height="480">
-    </canvas>
-</div>
-<div id="slider-group" style="display: none">
-    <div id="tilt-slider-group" style="float:left; display:inline; padding-left: 50px;">
-        <p>
-        <label for="tilt-slider-amount">Tilt:</label>
-        <input type="text" id="tilt-slider-amount" readonly style="border:0; color:#f6931f; font-weight:bold; width: 100px;">
-        </p>
-        <div id="tilt-slider" style="height:410px;"></div>
+<div id="camera" style="position: relative;">
+    <div id="canvas" style="position: absolute; left: 0px; top: 0px;">
+        <canvas id="x" width="640" height="480">
+        </canvas>
     </div>
-    <div id="zoom-slider-group" style="float:left; display:inline;">
-        <p>
-        <label for="zoom-slider-amount">Zoom:</label>
-        <input type="text" id="zoom-slider-amount" readonly style="border:0; color:#f6931f; font-weight:bold; width: 100px;">
-        </p>
-        <div id="zoom-slider" style="height:410px;"></div>
-    </div>
-    <div id="pan-slider-group" style="display: block;">
-        <p>
-        <label for="pan-slider-amount">Pan:</label>
-        <input type="text" id="pan-slider-amount" readonly style="border:0; color:#f6931f; font-weight:bold;">
-        </p>
-        <div id="pan-slider" style="width: 640px"></div>
+    <div id="slider-group" style="display: none">
+        <div id="tilt-slider-group" style="position: absolute; left: 690px; top: 0px;">
+            <p>
+            <label for="tilt-slider-amount">Tilt:</label>
+            <input type="text" id="tilt-slider-amount" readonly style="border:0; color:#f6931f; font-weight:bold; width: 100px;">
+            </p>
+            <div id="tilt-slider" style="height:410px;"></div>
+        </div>
+        <div id="zoom-slider-group" style="position: absolute; left: 790px; top: 0px;">
+            <p>
+            <label for="zoom-slider-amount">Zoom:</label>
+            <input type="text" id="zoom-slider-amount" readonly style="border:0; color:#f6931f; font-weight:bold; width: 100px;">
+            </p>
+            <div id="zoom-slider" style="height:410px;"></div>
+        </div>
+        <div id="pan-slider-group" style="position: absolute; left: 0px; top: 480px;">
+            <p>
+            <label for="pan-slider-amount">Pan:</label>
+            <input type="text" id="pan-slider-amount" readonly style="border:0; color:#f6931f; font-weight:bold;">
+            </p>
+            <div id="pan-slider" style="width: 640px"></div>
+        </div>
     </div>
 </div>
 
