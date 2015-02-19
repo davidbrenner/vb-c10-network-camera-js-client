@@ -207,7 +207,7 @@ function connectionWatchdog()
 {
     $.ajax({
         url: cameraURL+"?path=GetNotice" + encodeURIComponent("?timeout=1800&connection_id="+connection_id+"&seq="+seqNumber),
-        data: { },
+        data: { }
     })
     .done( function( data ) {
         console.log( "GetNotice?seq=" + seqNumber +": " + data + new Date().getTime());
@@ -287,7 +287,7 @@ function connectionWatchdog()
             $( "#zoom-slider-amount" ).val( $( "#zoom-slider" ).slider( "value" ) );
             parsePosition = false;
         }
-        if(isActive) setTimeout(connectionWatchdog(), 0);
+        if(isActive) setTimeout(connectionWatchdog, 0);
     })
     .fail( function() {
         isActive = false;
@@ -371,15 +371,15 @@ function setUpControl()
             camera.zoom_tele_limit = parseInt(camera.zoom_tele_limit);
             camera.zoom_wide_limit = parseInt(camera.zoom_wide_limit);
 
-            pan_min = camera.pan_left_limit;
-            pan_max = camera.pan_right_limit;
-            pan_val = camera.pan_current_value;
-            tilt_min = camera.tilt_down_limit;
-            tilt_max = camera.tilt_up_limit;
-            tilt_val = camera.tilt_current_value;
-            zoom_min = camera.zoom_tele_limit;
-            zoom_max = camera.zoom_wide_limit;
-            zoom_val = camera.zoom_current_value;
+            var pan_min = camera.pan_left_limit;
+            var pan_max = camera.pan_right_limit;
+            var pan_val = camera.pan_current_value;
+            var tilt_min = camera.tilt_down_limit;
+            var tilt_max = camera.tilt_up_limit;
+            var tilt_val = camera.tilt_current_value;
+            var zoom_min = camera.zoom_tele_limit;
+            var zoom_max = camera.zoom_wide_limit;
+            var zoom_val = camera.zoom_current_value;
 
             $( "#tilt-slider" ).slider({
                 orientation: "vertical",
@@ -505,6 +505,20 @@ function getMouseClickPosition(canvas, e) {
 }
 
 
+function displayDisconnected()
+{
+    // write canvas time out
+    context.font="61px Verdana";
+    context.textAlign="center";
+    context.fillStyle="red";
+    context.fillText("disconnected", canvas.width/2, canvas.height/2);
+    context.font="60px Verdana";
+    context.textAlign="center";
+    context.fillStyle="white";
+    context.fillText("disconnected", canvas.width/2, canvas.height/2);
+    destroyButton();
+    $( "#control-cam" ).html("<p>Please refresh page to continue viewing webcam</p>");
+};
 
 var canvas, context, img, disconnected;
 function timedRefresh(timeoutPeriod)
@@ -515,25 +529,12 @@ function timedRefresh(timeoutPeriod)
     img.src = imageURL + "&timeout=" + new Date().getTime();
     // debug:
     context.drawImage(img, 0, 0);
-    disconnected = setTimeout(function()
-            {
-                // write canvas time out
-                context.font="61px Verdana";
-                context.textAlign="center";
-                context.fillStyle="red";
-                context.fillText("disconnected", canvas.width/2, canvas.height/2);
-                context.font="60px Verdana";
-                context.textAlign="center";
-                context.fillStyle="white";
-                context.fillText("disconnected", canvas.width/2, canvas.height/2);
-                destroyButton();
-                $( "#control-cam" ).html("<p>Please refresh page to continue viewing webcam</p>");
-            }, 3000);
     img.onload = function() {
         context.drawImage(img, 0, 0);
         $( "#server-data" ).html("Most recent image timestamp: " + new Date().getTime());
-        clearTimeout(disconnected);
-        setTimeout("timedRefresh("+timeoutPeriod+")",timeoutPeriod);
+        window.clearTimeout(disconnected);
+        window.setTimeout(function() {timedRefresh(timeoutPeriod)},timeoutPeriod);
     };
+    disconnected = window.setTimeout(displayDisconnected, 3000);
 }
 </script>
