@@ -283,7 +283,7 @@ function connectionWatchdog()
             $( "#pan-slider-amount" ).val( $( "#pan-slider" ).slider( "value" ) );
             $( "#tilt-slider" ).slider("option", "value", camera.tilt_current_value );
             $( "#tilt-slider-amount" ).val( $( "#tilt-slider" ).slider( "value" ) );
-            $( "#zoom-slider" ).slider("option", "value", camera.zoom_current_value );
+            $( "#zoom-slider" ).slider("option", "value", zoom_max-camera.zoom_current_value );
             $( "#zoom-slider-amount" ).val( $( "#zoom-slider" ).slider( "value" ) );
             parsePosition = false;
         }
@@ -340,10 +340,10 @@ function destroyButton()
     $(window).unbind('beforeunload');
 }
 
+var zoom_max;
 function setUpControl()
 {
 
-    var zoom_min, zoom_max, zoom_val;
     $( "#control-cam" ).html( "");
     haveControl = true;
     $.ajax({
@@ -378,7 +378,7 @@ function setUpControl()
             var tilt_max = camera.tilt_up_limit;
             var tilt_val = camera.tilt_current_value;
             var zoom_min = camera.zoom_tele_limit;
-            var zoom_max = camera.zoom_wide_limit;
+            zoom_max = camera.zoom_wide_limit;
             var zoom_val = camera.zoom_current_value;
 
             $( "#tilt-slider" ).slider({
@@ -407,10 +407,10 @@ function setUpControl()
                 range: "min",
                 min: zoom_min,
                 max: zoom_max,
-                value: zoom_val,
+                value: zoom_max-zoom_val,
                 slide: function( event, ui ) {
                     $( "#zoom-slider-amount" ).val( ui.value );
-                    camera.zoom_current_value = ui.value
+                    camera.zoom_current_value = zoom_max-ui.value
                         //console.log("zoom slider: "+cameraURL+"?path=OperateCamera" + "?pan="+camera.pan_current_value+"&tilt="+camera.tilt_current_value+"&zoom="+camera.zoom_current_value+"&camera_id=1&connection_id="+connection_id);
                         $.ajax({
                             url: cameraURL+"?path=OperateCamera" + encodeURIComponent("?pan="+camera.pan_current_value+"&tilt="+camera.tilt_current_value+"&zoom="+camera.zoom_current_value+"&camera_id=1&connection_id="+connection_id),
@@ -485,7 +485,7 @@ function setUpControl()
                     $( "#pan-slider-amount" ).val( $( "#pan-slider" ).slider( "value" ) );
                     $( "#tilt-slider" ).slider("option", "value", camera.tilt_current_value );
                     $( "#tilt-slider-amount" ).val( $( "#tilt-slider" ).slider( "value" ) );
-                    $( "#zoom-slider" ).slider("option", "value", camera.zoom_current_value );
+                    $( "#zoom-slider" ).slider("option", "value", zoom_max-camera.zoom_current_value );
                     $( "#zoom-slider-amount" ).val( $( "#zoom-slider" ).slider( "value" ) );
                     $( "#debug" ).html( "button "+index+" clicked" + data + "|" + connection_id + "dock" + new Date().getTime());
                 }
