@@ -9,7 +9,7 @@
 //ini_set('display_errors', 'On');
 //error_reporting(E_ALL);
 
-// Allowed hostname (api.local and api.travel are also possible here)
+// HOSTNAME should be in the format http://your-webcam-url.com/-wvhttp-01-/
 define ('HOSTNAME', 'http://lakeminnetonkawebcam.mooo.com/-wvhttp-01-/');
 
 // Get the REST call path from the AJAX application
