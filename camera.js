@@ -1,3 +1,4 @@
+// Change cameraURL to the location of camera.php (http://example.com/camera.php)
 var cameraURL = "http://dbrenn.com/webcam/camera.php";
 var connection_id = "";
 var imageURL = "";
