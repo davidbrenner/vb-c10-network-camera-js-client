@@ -12,20 +12,22 @@ $.ajax({
             connection_id = connection_id.replace(/(\r\n|\n|\r)/gm,"");
         imageURL = "http://lakeminnetonkawebcam.mooo.com/-wvhttp-01-/GetLiveImage?connection_id=" + connection_id;
         timedRefresh(100);
-        $( "#conn" ).html( "Connection id: " + connection_id + "<br />" + "Debug Links: <br />"
-                + "<a href='http://lakeminnetonkawebcam.mooo.com/-wvhttp-01-/GetLiveImage?connection_id=" + connection_id +"' >GetLiveImage</a><br />"
-                + "<a href='http://lakeminnetonkawebcam.mooo.com/-wvhttp-01-/GetCameraServerInfo?connection_id=" + connection_id +"' >GetCameraServerInfo</a><br />"
-                + "<a href='http://lakeminnetonkawebcam.mooo.com/-wvhttp-01-/GetNotice?timeout=1000&connection_id=" + connection_id +"' >GetNotice</a><br />"
-                + "<a href='http://lakeminnetonkawebcam.mooo.com/-wvhttp-01-/GetCameraControl?connection_id=" + connection_id +"' >GetCameraControl</a><br />"
-                + "<a href='http://lakeminnetonkawebcam.mooo.com/-wvhttp-01-/OperateCamera?pan=-2000&tilt=-900&zoom=2500&back_light=off&camera_id=1&connection_id=" + connection_id +"' >OperateCamera</a><br />"
-                + "<a href='http://lakeminnetonkawebcam.mooo.com/-wvhttp-01-/OperateCameraOnScreen?pan=-100&tilt=100&connection_id=" + connection_id +"' >OperateCameraOnScreen</a><br />"
-                + "<a href='http://lakeminnetonkawebcam.mooo.com/-wvhttp-01-/GetPanoramaList?connection_id=" + connection_id +"' >GetPanoramaList</a><br />"
-                + "<a href='http://lakeminnetonkawebcam.mooo.com/-wvhttp-01-/GetVideoInfo?connection_id=" + connection_id +"' >GetVideoInfo</a><br />"
-                + "<a href='http://lakeminnetonkawebcam.mooo.com/-wvhttp-01-/GetCameraInfo?connection_id=" + connection_id +"' >GetCameraInfo</a><br />"
-                + "<a href='http://lakeminnetonkawebcam.mooo.com/-wvhttp-01-/GetPanoramaImage?connection_id=" + connection_id +"' >GetPanoramaImage</a><br />"
-                + "<a href='http://lakeminnetonkawebcam.mooo.com/-wvhttp-01-/GetPresetList?language=English&character_set=ascii&connection_id=" + connection_id +"' >GetPresetList</a><br />"
-                + "<a href='http://lakeminnetonkawebcam.mooo.com/-wvhttp-01-/CloseCameraServer?connection_id=" + connection_id +"' >CloseCameraServer</a><br />");
-        $( "#init-time" ).html("Session initialization timestamp: " + new Date().getTime());
+        if(debug){
+            $( "#conn" ).html( "Connection id: " + connection_id + "<br />" + "Debug Links: <br />"
+                    + "<a href='http://lakeminnetonkawebcam.mooo.com/-wvhttp-01-/GetLiveImage?connection_id=" + connection_id +"' >GetLiveImage</a><br />"
+                    + "<a href='http://lakeminnetonkawebcam.mooo.com/-wvhttp-01-/GetCameraServerInfo?connection_id=" + connection_id +"' >GetCameraServerInfo</a><br />"
+                    + "<a href='http://lakeminnetonkawebcam.mooo.com/-wvhttp-01-/GetNotice?timeout=1000&connection_id=" + connection_id +"' >GetNotice</a><br />"
+                    + "<a href='http://lakeminnetonkawebcam.mooo.com/-wvhttp-01-/GetCameraControl?connection_id=" + connection_id +"' >GetCameraControl</a><br />"
+                    + "<a href='http://lakeminnetonkawebcam.mooo.com/-wvhttp-01-/OperateCamera?pan=-2000&tilt=-900&zoom=2500&back_light=off&camera_id=1&connection_id=" + connection_id +"' >OperateCamera</a><br />"
+                    + "<a href='http://lakeminnetonkawebcam.mooo.com/-wvhttp-01-/OperateCameraOnScreen?pan=-100&tilt=100&connection_id=" + connection_id +"' >OperateCameraOnScreen</a><br />"
+                    + "<a href='http://lakeminnetonkawebcam.mooo.com/-wvhttp-01-/GetPanoramaList?connection_id=" + connection_id +"' >GetPanoramaList</a><br />"
+                    + "<a href='http://lakeminnetonkawebcam.mooo.com/-wvhttp-01-/GetVideoInfo?connection_id=" + connection_id +"' >GetVideoInfo</a><br />"
+                    + "<a href='http://lakeminnetonkawebcam.mooo.com/-wvhttp-01-/GetCameraInfo?connection_id=" + connection_id +"' >GetCameraInfo</a><br />"
+                    + "<a href='http://lakeminnetonkawebcam.mooo.com/-wvhttp-01-/GetPanoramaImage?connection_id=" + connection_id +"' >GetPanoramaImage</a><br />"
+                    + "<a href='http://lakeminnetonkawebcam.mooo.com/-wvhttp-01-/GetPresetList?language=English&character_set=ascii&connection_id=" + connection_id +"' >GetPresetList</a><br />"
+                    + "<a href='http://lakeminnetonkawebcam.mooo.com/-wvhttp-01-/CloseCameraServer?connection_id=" + connection_id +"' >CloseCameraServer</a><br />");
+            $( "#init-time" ).html("Session initialization timestamp: " + new Date().getTime());
+        }
         setUpButton();
         getPresetList();
         connectionWatchdog();
@@ -42,7 +44,7 @@ function setUpButton()
             url: cameraURL+"?path=GetCameraControl" + encodeURIComponent("?connection_id="+connection_id),
             data: { },
             success: function( data ) {
-                $( "#debug" ).html( "take control button clicked: " + data + "|" + connection_id + cameraURL+"?path=GetCameraControl" + encodeURIComponent("?connection_id="+connection_id) + new Date().getTime());
+                if(debug) $( "#debug" ).html( "take control button clicked: " + data + "|" + connection_id + cameraURL+"?path=GetCameraControl" + encodeURIComponent("?connection_id="+connection_id) + new Date().getTime());
             }
         });
 
@@ -51,23 +53,6 @@ function setUpButton()
 };
 
 
-<!--language=english-->
-<!--character_set=ascii-->
-<!--number_of_camera_positions=3-->
-<!---->
-<!--position_1=The Dock-->
-<!--camera_id=1-->
-<!--pan=300-->
-<!--tilt=-1500-->
-<!--zoom=1500-->
-<!--back_light=OFF-->
-<!---->
-<!--position_2=Weather Station-->
-<!--camera_id=1-->
-<!--pan=-4250-->
-<!--tilt=-1000-->
-<!--zoom=600-->
-<!--back_light=OFF-->
 var presetList = [];
 function getPresetList()
 {
@@ -105,8 +90,6 @@ function getPresetList()
                 }
             });
 
-            //$( "#debug" ).html( "data: " + data + "|" + new Date().getTime());
-            //connection_id = connection_id.replace(/(\r\n|\n|\r)/gm,"");
         }
     });
 };
@@ -121,7 +104,7 @@ function connectionWatchdog()
         data: { }
     })
     .done( function( data ) {
-        console.log( "GetNotice?seq=" + seqNumber +": " + data + new Date().getTime());
+        if(debug) console.log( "GetNotice?seq=" + seqNumber +": " + data + new Date().getTime());
         seqNumber++;
         var wait = false;
         var parsePosition = false;
@@ -204,12 +187,12 @@ function connectionWatchdog()
     .fail( function() {
         isActive = false;
         destroyButton();
-        console.log( "GetNotice?seq=" + seqNumber +" failed " + new Date().getTime());
+        //console.log( "GetNotice?seq=" + seqNumber +" failed " + new Date().getTime());
     });
 };
 
 function controlTimeExpired(){
-    if(haveControl) $( "#countdown" ).html("You still have control of the camera.");
+    if(haveControl and isActive) $( "#countdown" ).html("You still have control of the camera.");
     else $( "#countdown" ).html("");
 };
 
@@ -304,7 +287,7 @@ function setUpControl()
                 slide: function( event, ui ) {
                     $( "#tilt-slider-amount" ).val( ui.value );
                     camera.tilt_current_value = ui.value
-                        //console.log("tilt slider: "+cameraURL+"?path=OperateCamera" + "?pan="+camera.pan_current_value+"&tilt="+camera.tilt_current_value+"&zoom="+camera.zoom_current_value+"&camera_id=1&connection_id="+connection_id);
+                        if(debug) console.log("tilt slider: "+cameraURL+"?path=OperateCamera" + "?pan="+camera.pan_current_value+"&tilt="+camera.tilt_current_value+"&zoom="+camera.zoom_current_value+"&camera_id=1&connection_id="+connection_id);
                         $.ajax({
                             url: cameraURL+"?path=OperateCamera" + encodeURIComponent("?pan="+camera.pan_current_value+"&tilt="+camera.tilt_current_value+"&zoom="+camera.zoom_current_value+"&camera_id=1&connection_id="+connection_id),
                             data: { },
@@ -325,7 +308,7 @@ function setUpControl()
                 slide: function( event, ui ) {
                     $( "#zoom-slider-amount" ).val( ui.value );
                     camera.zoom_current_value = zoom_max-ui.value
-                        //console.log("zoom slider: "+cameraURL+"?path=OperateCamera" + "?pan="+camera.pan_current_value+"&tilt="+camera.tilt_current_value+"&zoom="+camera.zoom_current_value+"&camera_id=1&connection_id="+connection_id);
+                        if(debug) console.log("zoom slider: "+cameraURL+"?path=OperateCamera" + "?pan="+camera.pan_current_value+"&tilt="+camera.tilt_current_value+"&zoom="+camera.zoom_current_value+"&camera_id=1&connection_id="+connection_id);
                         $.ajax({
                             url: cameraURL+"?path=OperateCamera" + encodeURIComponent("?pan="+camera.pan_current_value+"&tilt="+camera.tilt_current_value+"&zoom="+camera.zoom_current_value+"&camera_id=1&connection_id="+connection_id),
                             data: { },
@@ -346,7 +329,7 @@ function setUpControl()
                 slide: function( event, ui ) {
                     $( "#pan-slider-amount" ).val( ui.value );
                     camera.pan_current_value = ui.value
-                        //console.log("pan slider: "+cameraURL+"?path=OperateCamera" + "?pan="+camera.pan_current_value+"&tilt="+camera.tilt_current_value+"&zoom="+camera.zoom_current_value+"&camera_id=1&connection_id="+connection_id);
+                        if(debug) console.log("pan slider: "+cameraURL+"?path=OperateCamera" + "?pan="+camera.pan_current_value+"&tilt="+camera.tilt_current_value+"&zoom="+camera.zoom_current_value+"&camera_id=1&connection_id="+connection_id);
                         $.ajax({
                             url: cameraURL+"?path=OperateCamera" + encodeURIComponent("?pan="+camera.pan_current_value+"&tilt="+camera.tilt_current_value+"&zoom="+camera.zoom_current_value+"&camera_id=1&connection_id="+connection_id),
                             data: { },
@@ -363,20 +346,19 @@ function setUpControl()
             // set up canvas click to pan/tilt
             $("#x").on('click', function(e){
                 var pos = getMouseClickPosition(canvas, e);
-                //console.log("clicked: " + pos.x + "," + pos.y);
+                if(debug) console.log("clicked on canvas at: " + pos.x + "," + pos.y);
 
                 // pan/tilt arguments expect +/- percentage (0-100) to move camera
                 var pan = Math.floor((2*pos.x-canvas.width) * 100 / canvas.width);
                 var tilt = Math.floor(-(2*pos.y-canvas.height) * 100 / canvas.height);
-                //console.log("new pan,tilt,zoom: " + pan +","+ tilt +","+ camera.zoom_current_value);
+                if(debug) console.log("new pan,tilt,zoom: " + pan +","+ tilt +","+ camera.zoom_current_value);
 
                 // call OperateCameraOnScreen method
                 $.ajax({
                     url: cameraURL+"?path=OperateCameraOnScreen" + encodeURIComponent("?pan="+pan+"&tilt="+tilt+"&connection_id="+connection_id),
                     data: { },
                     success: function( data ) {
-                        $( "#debug" ).html( "canvas clicked" + data + "|" + connection_id + "dock" + new Date().getTime());
-                        // get back current camera position
+                        if(debug) $( "#debug" ).html( "canvas clicked" + data + "|" + connection_id + "dock" + new Date().getTime());
                     }
                 });
 
@@ -401,7 +383,7 @@ function setUpControl()
                     $( "#tilt-slider-amount" ).val( $( "#tilt-slider" ).slider( "value" ) );
                     $( "#zoom-slider" ).slider("option", "value", zoom_max-camera.zoom_current_value );
                     $( "#zoom-slider-amount" ).val( $( "#zoom-slider" ).slider( "value" ) );
-                    $( "#debug" ).html( "button "+index+" clicked" + data + "|" + connection_id + "dock" + new Date().getTime());
+                    if(debug) $( "#debug" ).html( "button "+index+" clicked" + data + "|" + connection_id + "dock" + new Date().getTime());
                 }
             });
 
@@ -440,7 +422,6 @@ function timedRefresh(timeoutPeriod)
     context = canvas.getContext("2d");
     img = new Image();
     img.src = imageURL + "&timeout=" + new Date().getTime();
-    // debug:
     img.onload = function() {
         if(isActive)
         {
@@ -453,7 +434,7 @@ function timedRefresh(timeoutPeriod)
             context.fillStyle="white";
             context.fillText(timestamp, 0, canvas.height);
 
-            $( "#server-data" ).html("Most recent image timestamp: " + new Date().getTime());
+            if(debug) $( "#server-data" ).html("Most recent image timestamp: " + new Date().getTime());
             window.setTimeout(function() {timedRefresh(timeoutPeriod)},timeoutPeriod);
         }
     };
