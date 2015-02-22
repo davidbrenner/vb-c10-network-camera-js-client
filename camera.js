@@ -38,7 +38,6 @@ function setUpButton()
 {
     $( "#control-cam" ).html( "<button>Take control</button>");
     $( "#control-cam button" ).on( "click", function( event ) {
-        $( "#debug" ).html( "take control button clicked");
         $.ajax({
 
             url: cameraURL+"?path=GetCameraControl" + encodeURIComponent("?connection_id="+connection_id),
@@ -192,7 +191,7 @@ function connectionWatchdog()
 };
 
 function controlTimeExpired(){
-    if(haveControl and isActive) $( "#countdown" ).html("You still have control of the camera.");
+    if(haveControl && isActive) $( "#countdown" ).html("You still have control of the camera.");
     else $( "#countdown" ).html("");
 };
 
@@ -435,7 +434,7 @@ function timedRefresh(timeoutPeriod)
             context.fillText(timestamp, 0, canvas.height);
 
             if(debug) $( "#server-data" ).html("Most recent image timestamp: " + new Date().getTime());
-            window.setTimeout(function() {timedRefresh(timeoutPeriod)},timeoutPeriod);
+            setTimeout(function() {timedRefresh(timeoutPeriod)},timeoutPeriod);
         }
     };
 }
